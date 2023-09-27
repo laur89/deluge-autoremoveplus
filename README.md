@@ -109,10 +109,18 @@ B) ...or using pyenv (recommended):
 Building
 --------
 
+Building uses Docker to easily swap out Python versions. Note that if you're running an older version of Docker you may need to enable BuildKit manually.
+
 Run:
 
 ```
-python setup.py bdist_egg
+make build
+```
+
+By default Python 3.11 is used. If you wish to target a different version specify it as an environment variable:
+
+```
+make build PYTHON_VERSION=3.10
 ```
 
 The resulting `AutoRemovePlus-vX.Y.Z.egg` file can be found in the `/dist` directory.
