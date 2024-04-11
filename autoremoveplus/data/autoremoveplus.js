@@ -403,6 +403,7 @@ Deluge.plugins.autoremoveplus.ui.PreferencePage = Ext.extend(Ext.TabPanel, {
 
         this.tblTrackers = this.specSettingsBox.add({
             xtype: 'editorgrid',
+            clicksToEdit: 1,
             margins: '2 0 0 5',
             flex: 1,
             autoExpandColumn: 'name',
@@ -453,6 +454,12 @@ Deluge.plugins.autoremoveplus.ui.PreferencePage = Ext.extend(Ext.TabPanel, {
             listeners: {
                 afteredit: function(e) {
                     e.record.commit();
+                },
+
+                cellmousedown: function(e, r, c) {
+                    if (this.editing) {
+                        this.startEditing(r, c);
+                    }
                 }
             },
 
@@ -529,6 +536,7 @@ Deluge.plugins.autoremoveplus.ui.PreferencePage = Ext.extend(Ext.TabPanel, {
 
         this.tblRules = this.specSettingsBox.add({
             xtype: 'editorgrid',
+            clicksToEdit: 1,
             margins: '2 0 0 5',
             flex: 1,
             autoExpandColumn: 'name',
@@ -619,6 +627,12 @@ Deluge.plugins.autoremoveplus.ui.PreferencePage = Ext.extend(Ext.TabPanel, {
             listeners: {
                 afteredit: function(e) {
                     e.record.commit();
+                },
+
+                cellmousedown: function(e, r, c) {
+                    if (this.editing) {
+                        this.startEditing(r, c);
+                    }
                 }
             },
 
