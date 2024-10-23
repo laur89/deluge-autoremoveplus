@@ -85,6 +85,7 @@ DEFAULT_PREFS = {
     'reannounce_max_wait_sec': 20,
     'skip_removal_on_reannounce_failure': True,
     'remove': True,
+    'post_removal_sleep_sec': -1.0,
     'enabled': False,
     'tracker_rules': {},
     'label_rules': {},
@@ -559,7 +560,7 @@ class Core(CorePluginBase):
 
             # check if free disk space below minimum
             if self.check_min_space():
-                break  # break the loop, we have enough space
+                break  # we have enough space, do not remove any more
 
             log.debug(
                 "periodic_scan(): starting remove-torrent rule checking for [%s], %s"
@@ -639,6 +640,12 @@ class Core(CorePluginBase):
                     # note we deferToThread because of time.sleep() downstream
                     if await threads.deferToThread(lambda: self.remove_torrent(i, t, remove_data)):
                         changed = True
+                    # sleep a bit post-removal to give time for hdd space to be freed up;
+                    # on some seedboxes I've seen it takes a long time for space to be
+                    # reported as freed up, which can cause too many torrents to be removed
+                    # in the same invocation:
+                    if self.config['hdd_space'] > 0.0 and self.config['post_removal_sleep_sec'] > 0.0:
+                        await threads.deferToThread(lambda: time.sleep(self.config['post_removal_sleep_sec'])):
 
         # If a torrent exemption state has been removed save changes
         if changed:
