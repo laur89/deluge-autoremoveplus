@@ -233,7 +233,7 @@ class Gtk3UI(Gtk3PluginBase):
         new_row = self.lstore_rules.append(["Tracker", "New Tracker", "and", "Ratio", 0.0])
         #self._view.set_cursor("3", start_editing=True)
         path = self.lstore_rules.get_path(new_row)
-        self._view.set_cursor(path, focus_column=self._view.get_column(1), start_editing=True)
+        self._view.set_cursor(path, self._view.get_column(1), start_editing=True)
 
     def _do_delete_rule(self,button):
         selection = self._view.get_selection()
@@ -247,7 +247,7 @@ class Gtk3UI(Gtk3PluginBase):
         new_row = self.lstore.append(["Tracker","New Tracker"])
         #self._view.set_cursor("3", start_editing=True)
         path = self.lstore.get_path(new_row)
-        self._view_trackers.set_cursor(path, focus_column=self._view_trackers.get_column(1), start_editing=True)
+        self._view_trackers.set_cursor(path, self._view_trackers.get_column(1), start_editing=True)
 
     def _do_delete_tracker(self,button):
         selection = self._view_trackers.get_selection()
